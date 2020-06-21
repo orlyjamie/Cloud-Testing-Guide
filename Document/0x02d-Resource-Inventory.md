@@ -190,5 +190,24 @@ aws-list-all query --region eu-west-1 --service ec2 --directory ./data/
 aws-list-all show --verbose ./data/*
 ```
 
+```
+ec2 ap-southeast-2 DescribeAddresses Addresses 3
+ec2 ap-southeast-2 DescribeImages Images 2
+ec2 ap-southeast-2 DescribeInstanceCreditSpecifications InstanceCreditSpecifications > 1
+ec2 ap-southeast-2 DescribeInstances Reservations 3
+ec2 ap-southeast-2 DescribeInstanceStatus InstanceStatuses 3
+ec2 ap-southeast-2 DescribeInstanceTypeOfferings InstanceTypeOfferings 219
+ec2 ap-southeast-2 DescribeInstanceTypes InstanceTypes > 100
+ec2 ap-southeast-2 DescribeInternetGateways InternetGateways 1
+ec2 ap-southeast-2 DescribeKeyPairs KeyPairs 1
+ec2 ap-southeast-2 DescribeNetworkInterfaces NetworkInterfaces 5
+ec2 ap-southeast-2 DescribeSecurityGroups SecurityGroups 2
+ec2 ap-southeast-2 DescribeSnapshots Snapshots 2
+ec2 ap-southeast-2 DescribeSubnets Subnets 3
+ec2 ap-southeast-2 DescribeTags Tags 16
+ec2 ap-southeast-2 DescribeVolumes Volumes 3
+ec2 ap-southeast-2 DescribeVolumeStatus VolumeStatuses 3
+ec2 ap-southeast-2 DescribeVpcs Vpcs 1
 
+```
 
