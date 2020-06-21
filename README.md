@@ -33,7 +33,7 @@ For this reason, The CSTG combines comprehensive, objective technical processese
 - [Platform Overview](Document/0x02a-Platform-Overview.md)
 - [Basic Security Testing]()
 - [Access Methods]()
-- [Resource Inventory]()
+- [Resource Inventory](https://github.com/orlyjamie/Cloud-Testing-Guide/blob/master/Document/0x02d-Resource-Inventory.md)
 
 
 ### Compute Services
