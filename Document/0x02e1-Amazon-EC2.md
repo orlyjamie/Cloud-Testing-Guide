@@ -1,6 +1,97 @@
-== Elastic Compute Cloud (EC2) Overview ==
-Elastic Compute Cloud (EC2) is a widely used service offered by Amazon. It allows to rent virtual computers that can be used to run arbitrary applications. EC2 provides a scalable solution to deploy a new computer, which in AWS terminology is called an "instance", and mange its status via a web-based user interface. The user can manage every aspect of an EC2 instance from the creation and execution to the definition of access policies. EC2 instances provide many different features two of which are particular relevant when from a security perspective: Elastic Block Store<ref>Elastic Block Store https://aws.amazon.com/ebs/</ref> and Instance Metadata Service<ref>Instance Metadata and User data https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html</ref>.
+# Elastic Compute Cloud (EC2) Overview
 
+Amazon Elastic Compute Cloud (Amazon EC2) is a web service that provides secure, resizable compute capacity in the cloud. It is designed to make web-scale cloud computing easier for developers. Amazon EC2’s simple web service interface allows you to obtain and configure capacity with minimal friction. It provides you with complete control of your computing resources and lets you run on Amazon’s proven computing environment.
+
+## Amazon Machine Image (AMI) 
+
+An Amazon Machine Image (AMI) provides the information required to launch an instance. You must specify an AMI when you launch an instance. You can launch multiple instances from a single AMI when you need multiple instances with the same configuration. You can use different AMIs to launch instances when you need instances with different configurations.
+
+An AMI includes the following:
+- One or more EBS snapshots, or, for instance-store-backed AMIs, a template for the root volume of the instance (for example, an operating system, an application server, and applications).
+- Launch permissions that control which AWS accounts can use the AMI to launch instances.
+- A block device mapping that specifies the volumes to attach to the instance when it's launched.
+
+### Publicly Shared AMI
+
+A shared AMI is an AMI that a developer created and made available for other developers to use. Amazon encourages developers to use existing shared AMI's that have the components a developer may need who can then add custom content. Organisations can also create their own AMIs and share them with others.
+
+From a security perspective, publicly shared AMI's can contain sensitive information that can be valuable to attackers including but not limited to application credentials, AWS keys and SSH keys. 
+
+#### Identifying publicly accessible AMI images
+You can identify any publicly accessible AMI images using the following command:
+
+```
+$ aws ec2 describe-images --region ap-southeast-2 --owners self --query 'Images[*].{ImageId:ImageId, Public:Public, Name:Name}'
+```
+
+If there are any publicly shared AMI images owned by the account in use you should see output similar to the following:
+
+```
+[
+    {
+        "ImageId": "ami-021ed8c859b042b91",
+        "Public": true,
+        "Name": "cstg-test-ami-exposure"
+    }
+]
+
+```
+
+From an external attackers perspective (using an unrelated AWS Access Token) searches against the public AMI marketplace using filters related to a specific target can prove beneficial as seen below.
+
+In this example, the target brand, organisation or company is "`cstg`".
+
+```
+aws ec2 describe-images  --filters "Name=name,Values=*cstg*"
+```
+
+The above search identified a single AMI image that can be copied and accessed in order to search for any left over sensitive data.
+
+```
+{
+    "Images": [
+        {
+            "Architecture": "x86_64",
+            "CreationDate": "2020-06-24T13:20:27.000Z",
+            "ImageId": "ami-021ed8c859b042b91",
+            "ImageLocation": "623152474539/cstg-test-ami-exposure",
+            "ImageType": "machine",
+            "Public": true,
+            "KernelId": "aki-31990e0b",
+            "OwnerId": "623152474539",
+            "PlatformDetails": "Linux/UNIX",
+            "UsageOperation": "RunInstances",
+            "State": "available",
+            "BlockDeviceMappings": [
+                {
+                    "DeviceName": "/dev/sda",
+                    "Ebs": {
+                        "DeleteOnTermination": true,
+                        "SnapshotId": "snap-08e3fbb0c26743ca5",
+                        "VolumeSize": 20,
+                        "VolumeType": "standard",
+                        "Encrypted": false
+                    }
+                }
+            ],
+            "Description": "Testing public AMI exposure",
+            "Hypervisor": "xen",
+            "Name": "cstg-test-ami-exposure",
+            "RootDeviceName": "/dev/sda1",
+            "RootDeviceType": "ebs",
+            "VirtualizationType": "paravirtual"
+        }
+    ]
+}
+```
+
+
+### AWS AMI Encryption
+
+### 
+
+### References
+- https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html
 
 
 ===  Publicly accessible EC2 snapshots ===
