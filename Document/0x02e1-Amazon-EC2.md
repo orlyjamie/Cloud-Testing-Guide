@@ -36,6 +36,7 @@ If there are any publicly shared AMI images owned by the account in use you shou
 ]
 
 ```
+#### Identifying publicly accessible AMI images (external perspective)
 
 From an external attackers perspective (using an unrelated AWS Access Token) searches against the public AMI marketplace using filters related to a specific target can prove beneficial as seen below.
 
